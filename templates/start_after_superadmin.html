@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Superadmin Start</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .start-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .start-message {
+      font-size: 1.2em;
+      color: #003333;
+    }
+    .start-button {
+      padding: 15px 30px;
+      background-color: #00aa88;
+      color: white;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .start-button:hover {
+      background-color: #008866;
+    }
+  </style>
+</head>
+<body>
+  <div class="start-container">
+    <div class="start-message">
+      🪖 Place your helmet, close the door and press the START button.
+    </div>
+    <form action="/manual-start" method="POST" onsubmit="this.querySelector('button').disabled = true;">
+      <button class="start-button" type="submit">START</button>
+    </form>
+  </div>
+
+  <script>
+    // Auto-redirect to home after 5 minutes (300000 ms)
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 300000);
+  </script>
+</body>
+</html>

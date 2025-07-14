@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Helmet Cleaning Service</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f7fc;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #003366;
+    }
+
+    .section {
+      margin: 2rem 0;
+    }
+
+    .section h2 {
+      color: #0055aa;
+      margin-bottom: 0.5rem;
+    }
+
+    button, input[type="password"] {
+      padding: 0.75rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+    }
+
+    .primary-btn {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    .primary-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .status {
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    .status.success {
+      color: green;
+    }
+
+    .status.error {
+      color: red;
+    }
+
+    .input-group {
+      margin-top: 1rem;
+    }
+
+    .countdown {
+      font-weight: bold;
+      color: orange;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section">
+    <h2>Wi-Fi Setup (Required Only Once)</h2>
+    <form method="POST" action="/wifi-connect">
+      <label for="ssid">SSID</label>
+      <input list="ssid-list" name="ssid" placeholder="Select or type SSID" required>
+      <datalist id="ssid-list"></datalist>
+
+      <label for="password">Password</label>
+      <input type="password" name="password" placeholder="Enter Wi-Fi Password" required>
+
+      <button class="primary-btn" type="submit">Connect to Wi-Fi</button>
+    </form>
+  </div>
+
+  <div class="section">
+    <h2>Online Payment</h2>
+    <form action="/create-order" method="post">
+      <button class="primary-btn">Pay ₹100 and Start Cleaning</button>
+    </form>
+  </div>
+
+  <div class="section">
+    <h2>Offline Payment (Superadmin Only)</h2>
+    <div class="input-group">
+      <input type="password" id="admin-pass" placeholder="Enter Superadmin Password">
+      <button class="primary-btn" onclick="loginSuperadmin()">Login</button>
+    </div>
+    <div id="admin-status" class="status"></div>
+  </div>
+
+  <script>
+    function scanWifi() {
+      fetch('/wifi-scan')
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById("ssid-list");
+          list.innerHTML = "";
+          data.networks.forEach(ssid => {
+            const option = document.createElement("option");
+            option.value = ssid;
+            list.appendChild(option);
+          });
+        });
+    }
+
+    window.onload = () => {
+      scanWifi();
+    };
+
+    function loginSuperadmin() {
+      const password = document.getElementById("admin-pass").value;
+      fetch('/superadmin-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const statusBox = document.getElementById("admin-status");
+        if (data.status === "success") {
+          statusBox.innerText = "🗝️ Superadmin logged in.";
+          statusBox.className = "status success";
+          setTimeout(() => {
+            window.location.href = "/start_after_superadmin";
+          }, 1000);
+        } else {
+          statusBox.innerText = data.message || "Login failed.";
+          statusBox.className = "status error";
+        }
+      })
+      .catch(err => {
+        alert("Login error: " + err);
+      });
+    }
+  </script>
+
+</body>
+</html>

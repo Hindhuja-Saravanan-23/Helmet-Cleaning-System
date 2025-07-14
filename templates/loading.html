@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resetting...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom, #000000, #004d4d);
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    .loader {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #00FFCC;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    h1 {
+      font-size: 1.8em;
+    }
+  </style>
+  <script>
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 5000);
+  </script>
+</head>
+<body>
+  <div class="loader"></div>
+  <h1>Preparing for new cleaning cycle...</h1>
+</body>
+</html>

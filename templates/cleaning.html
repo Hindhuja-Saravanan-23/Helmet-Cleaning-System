@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Helmet Cleaning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #00416A, #E4E5E6);
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+    }
+
+    .helmet-container {
+      position: relative;
+      width: 250px;
+      height: 250px;
+    }
+
+    .ring {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .progress-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: conic-gradient(#00FFCC 0%, transparent 0%);
+      z-index: 1;
+    }
+
+    .helmet-img {
+      width: 120px;
+      height: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: jump 2s infinite ease-in-out;
+      z-index: 2;
+    }
+
+    @keyframes jump {
+      0%, 100% { transform: translate(-50%, -48%); }
+      50% { transform: translate(-50%, -55%); }
+    }
+
+    .percentage {
+      margin-top: 30px;
+      font-size: 1.5em;
+      color: #00FFCC;
+      font-weight: bold;
+    }
+
+    h2 {
+      margin-top: 10px;
+      font-size: 1.4em;
+    }
+  </style>
+</head>
+<body>
+  <div class="helmet-container">
+    <div class="ring"></div>
+    <div class="progress-ring" id="progress-ring"></div>
+    <img src="{{ url_for('static', filename='h1.png') }}" alt="Helmet" class="helmet-img">
+  </div>
+
+  <div class="percentage" id="percent-text">0%</div>
+  <h2>Helmet Cleaning In Progress</h2>
+
+  <script>
+    let total = 370;
+    let timeLeft = total;
+    let progressRing = document.getElementById('progress-ring');
+    let percentText = document.getElementById('percent-text');
+
+    function updateProgress() {
+      timeLeft--;
+      const percent = Math.round(((total - timeLeft) / total) * 100);
+      progressRing.style.background = `conic-gradient(#00FFCC ${percent}%, transparent 0%)`;
+      percentText.textContent = `${percent}%`;
+
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        window.location.href = "/complete";
+      }
+    }
+
+    let timer = setInterval(updateProgress, 1000);
+  </script>
+</body>
+</html>
