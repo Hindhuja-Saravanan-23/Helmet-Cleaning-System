@@ -1,11 +1,30 @@
 <html>
+
 <head>
   <title>Payment</title>
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <link rel="stylesheet" href="{{ url_for('stylesheet', filename='global.css') }}">
+  <!-- <link rel="stylesheet" href="../stylesheet/global.css"> -->
 </head>
+
 <body>
-  <h1>Pay ₹{{ amount }}</h1>
-  <button id="rzp-button">Pay Now</button>
+  <header class="container-fluid">
+    <div class="row justify-content-between align-items-center h-100">
+      <div class="col">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Helmet Cleaner Logo"
+          style="width: 100px; height: auto;" />
+        <!-- <img src="../static/logo.png" alt="Helmet Cleaner Logo" style="width: 100px; height: auto;" /> -->
+      </div>
+    </div>
+  </header>
+
+  <main class="splan_content">
+    <div class="pay_card row align-items-center justify-content-center">
+      <div class="col">
+        <h2 style="margin-bottom: 1rem;">Pay ₹{{ amount }}</h2>
+        <button id="rzp-button" class="btn-brand-color text-light">Pay Now</button>
+      </div>
+    </div>
+  </main>
 
   <script>
     const options = {
@@ -25,19 +44,21 @@
             razorpay_signature: response.razorpay_signature
           })
         })
-        .then(res => {
-          if (res.redirected) {
+          .then(res => {
+            if (res.redirected) {
               window.location.href = res.url;
-        } else {
-           return res.text().then(text => {
-              document.body.innerHTML = text;
-        });
-      }
-   });
- },
+            } else {
+              return res.text().then(text => {
+                document.body.innerHTML = text;
+              });
+            }
+          });
+      },
       theme: { color: "#3399cc" }
     };
     document.getElementById("rzp-button").onclick = e => { new Razorpay(options).open(); e.preventDefault(); };
   </script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
+
 </html>
