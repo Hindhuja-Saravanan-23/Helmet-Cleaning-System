@@ -39,6 +39,14 @@
 
   <script>
     setTimeout(() => {
+      alert("⚠️ Please press START to begin helmet cleaning.");
+    }, 30000); // 30 seconds warning
+
+    setTimeout(() => {
+      alert("⏰ Redirecting to homepage since START was not pressed.");
+    }, 120000); // 2 minutes warning
+
+    setTimeout(() => {
       window.location.href = "/";
     }, 300000);
   </script>

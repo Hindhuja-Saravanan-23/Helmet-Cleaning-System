@@ -65,7 +65,7 @@ def notify_user(msg):
     print("NOTIFICATION:", msg)
 
 def cleaning_sequence():
-    print(" Helmet cleaning process started")
+    print("Helmet cleaning process started")
     process_status.update({
         "complete": False,
         "waiting_manual_start": False,
