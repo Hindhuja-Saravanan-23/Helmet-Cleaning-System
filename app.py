@@ -65,7 +65,7 @@ def notify_user(msg):
     print("NOTIFICATION:", msg)
 
 def cleaning_sequence():
-    print("Helmet cleaning process started")
+    print(" Helmet cleaning process started")
     process_status.update({
         "complete": False,
         "waiting_manual_start": False,
@@ -76,32 +76,43 @@ def cleaning_sequence():
     print(" Turning on UV Light + Door Unlock (combined)")
     GPIO.output(COMBINED_OUTPUT_PIN, GPIO.HIGH)
 
-    def pump_on_then_heater():
+    def heater_then_toggle_pump():
         time.sleep(5)
-        print("Turning on Pump")
-        GPIO.output(PUMP_PIN, GPIO.HIGH)
-        time.sleep(40)
-        print(" Turning on Heater (after 40s of pump ON)")
+        print("Turning ON Heater")
         GPIO.output(HEATER_PIN, GPIO.HIGH)
+
+        time.sleep(40)
+        print("Starting Pump ON/OFF cycle every 30s until 4 min")
+        toggle_start_time = time.time()
+        while time.time() - toggle_start_time < 180:  # run for 3 minutes from now (~4 min total since start)
+            GPIO.output(PUMP_PIN, GPIO.HIGH)
+            print("Pump ON")
+            time.sleep(30)
+            GPIO.output(PUMP_PIN, GPIO.LOW)
+            print("Pump OFF")
+            time.sleep(30)
+
+    def pump_off_exhaust_on():
+        time.sleep(240)  # At 4 minutes
+        GPIO.output(PUMP_PIN, GPIO.LOW)
+        print("Pump OFF (final at 4 minutes)")
+        GPIO.output(EXHAUST_FAN_PIN, GPIO.HIGH)
+        print("Exhaust Fan ON")
+
+    def heater_off():
+        time.sleep(300)  # After 5 minutes
+        GPIO.output(HEATER_PIN, GPIO.LOW)
+        print("Heater OFF")
 
     def combined_off():
         time.sleep(360)
-        print("Turning off UV + Door Unlock (combined)")
         GPIO.output(COMBINED_OUTPUT_PIN, GPIO.LOW)
+        print("UV + Door Unlock OFF")
 
-    def heater_off():
-        time.sleep(345)
-        print("Turning off Heater")
-        GPIO.output(HEATER_PIN, GPIO.LOW)
-
-    def pump_to_exhaust():
-        time.sleep(240)
-        print("Turning off Pump, turning on Exhaust Fan")
-        GPIO.output(PUMP_PIN, GPIO.LOW)
-        GPIO.output(EXHAUST_FAN_PIN, GPIO.HIGH)
-        time.sleep(120)
-        print("Turning off Exhaust Fan")
+    def exhaust_off():
+        time.sleep(360)
         GPIO.output(EXHAUST_FAN_PIN, GPIO.LOW)
+        print("Exhaust Fan OFF")
 
     def mark_complete():
         time.sleep(370)
@@ -113,10 +124,11 @@ def cleaning_sequence():
         print("Helmet cleaning complete.")
         notify_user("Helmet cleaning complete.")
 
-    threading.Thread(target=pump_on_then_heater).start()
-    threading.Thread(target=combined_off).start()
+    threading.Thread(target=heater_then_toggle_pump).start()
+    threading.Thread(target=pump_off_exhaust_on).start()
     threading.Thread(target=heater_off).start()
-    threading.Thread(target=pump_to_exhaust).start()
+    threading.Thread(target=combined_off).start()
+    threading.Thread(target=exhaust_off).start()
     threading.Thread(target=mark_complete).start()
 
 @app.route('/live-status')
