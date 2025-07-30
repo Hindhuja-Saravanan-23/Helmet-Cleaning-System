@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Helmet Cleaning - Start</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/global.css') }}"> -->
-  <link rel="stylesheet" href="../static/stylesheet/global.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .start-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .start-message {
+      font-size: 1.2em;
+      color: #003333;
+    }
+    .start-button {
+      padding: 15px 30px;
+      background-color: #00aa88;
+      color: white;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .start-button:hover {
+      background-color: #008866;
+    }
+  </style>
 </head>
-
 <body>
-  <header class="container-fluid">
-    <div class="row justify-content-between align-items-center h-100">
-      <div class="col">
-        <!-- <img src="{{ url_for('static', filename='logo.png') }}" alt="Helmet Cleaner Logo"
-          style="width: 100px; height: auto;" /> -->
-        <img src="../static/logo.png" alt="Helmet Cleaner Logo" style="width: 100px; height: auto;" />
-      </div>
+  <div class="start-container">
+    <div class="start-message">
+      🪖 Place your helmet, close the door and press the START button.
     </div>
-  </header>
-
-  <div class="content_height row align-items-center justify-content-center">
-    <div class="col-9">
-      <div class="card text-center" style="padding: 1rem;">
-        <!-- <img src="{{ url_for('static', filename='h1.png') }}" alt="Helmet" class="helmet-img"> -->
-        <img src="../static/h1.png" alt="Helmet" width="120px">
-
-        <p class="text-center">Place your helmet, close the door and press the START button.</p>
-
-        <form action="/manual-start" method="POST" style="margin-top:1rem"
-          onsubmit="this.querySelector('button').disabled = true;">
-
-          <button class="btn-brand-color text-light" type="submit">START</button>
-        </form>
-      </div>
-    </div>
+    <form action="/manual-start" method="POST" onsubmit="this.querySelector('button').disabled = true;">
+      <button class="start-button" type="submit">START</button>
+    </form>
   </div>
-
   <script>
     setTimeout(() => {
       alert("⚠️ Please press START to begin helmet cleaning.");
@@ -48,8 +61,7 @@
 
     setTimeout(() => {
       window.location.href = "/";
-    }, 300000);
+    }, 150000); // Redirect after 2min warning + 30 seconds = 2.5 minutes
   </script>
 </body>
-
 </html>

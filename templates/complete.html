@@ -1,41 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Cleaning Complete</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/global.css') }}">
-  <!-- <link rel="stylesheet" href="../stylesheet/global.css"> -->
-
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #003300, #009900);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    h1 { font-size: 2.5em; margin-bottom: 1rem; }
+    p { font-size: 1.2em; margin-bottom: 2rem; }
+    .checkmark {
+      font-size: 4em;
+      color: #00ff99;
+      animation: pop 0.8s ease-in-out;
+    }
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .redirect-msg {
+      font-size: 1em;
+      margin-top: 1rem;
+      opacity: 0.8;
+    }
+    .restart-btn {
+      margin-top: 1.5rem;
+      padding: 10px 20px;
+      font-size: 1em;
+      background: #00cc88;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+    .restart-btn:hover {
+      background: #00b07a;
+    }
+  </style>
   <script>
-    setTimeout(() => { window.location.href = "/loading"; }, 30000);
+    // Automatically go to /loading after 30 seconds
+    setTimeout(() => {
+      window.location.href = "/loading";
+    }, 30000);
   </script>
 </head>
-
 <body>
-  <header class="container-fluid">
-    <div class="row justify-content-between align-items-center h-100">
-      <div class="col">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Helmet Cleaner Logo"
-          style="width: 100px; height: auto;" />
-        <!-- <img src="../static/logo.png" alt="Helmet Cleaner Logo" style="width: 100px; height: auto;" /> -->
-      </div>
-    </div>
-  </header>
-
-  <main class="splan_content">
-    <div class="row align-items-center justify-content-center">
-      <div class="col">
-        <div class="card">
-          <h1>Cleaning Complete!</h1>
-          <p>Take your helmet.</p>
-          <button class="btn-brand-color text-light" onclick="window.location.href='/loading'">Start New
-            Cleaning</button>
-        </div>
-      </div>
-    </div>
-  </main>
+  <div class="checkmark">✅</div>
+  <h1>Cleaning Complete!</h1>
+  <p>Your helmet is now clean and ready for collection.</p>
+  <div class="redirect-msg">Start a new cleaning session manually or wait 30 seconds to proceed.</div>
+  <button class="restart-btn" onclick="window.location.href='/loading'">Start New Cleaning</button>
 </body>
-
 </html>

@@ -1,50 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Connect to Wi-Fi</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/global.css') }}">
-  <!-- <link rel="stylesheet" href="../stylesheet/global.css"> -->
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f7f9fc;
+    }
+    h2 {
+      color: #003366;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      font-size: 1em;
+      width: 100%;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .status {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    function scanNetworks() {
+      fetch('/wifi-scan')
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById("ssid-list");
+          list.innerHTML = "";
+          data.networks.forEach(ssid => {
+            const option = document.createElement("option");
+            option.value = ssid;
+            list.appendChild(option);
+          });
+        });
+    }
+
+    window.onload = scanNetworks;
+  </script>
 </head>
-
 <body>
-  <header class="container-fluid">
-    <div class="row justify-content-between align-items-center h-100">
-      <div class="col">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Helmet Cleaner Logo"
-          style="width: 100px; height: auto;" />
-        <!-- <img src="../static/logo.png" alt="Helmet Cleaner Logo" style="width: 100px; height: auto;" /> -->
-      </div>
-    </div>
-  </header>
+  <h2>📶 Connect to Wi-Fi</h2>
+  <form method="POST" action="/wifi-connect">
+    <label for="ssid">Select Network (SSID):</label>
+    <input list="ssid-list" name="ssid" required placeholder="Select or type SSID">
+    <datalist id="ssid-list"></datalist>
 
-  <div class="content_height row align-items-center justify-content-center">
-    <div class="col-9">
-      <div class="card" style="padding: 1rem;">
-        <h2>Connect to Wi-Fi</h2>
-        <form method="POST" action="/wifi-connect">
-          <div class="col">
-            <label for="ssid" style="display: block;">Select Network (SSID):</label>
-            <input list="ssid-list" name="ssid" id="ssid" class="custom_input" required
-              placeholder="Select or type SSID">
-            <datalist id="ssid-list"></datalist>
-          </div>
+    <label for="password">Wi-Fi Password:</label>
+    <input type="password" name="password" required placeholder="Enter password">
 
-          <div class="col">
-            <label for="password" style="display: block;">Wi-Fi Password:</label>
-            <input type="password" name="password" id="password" class="custom_input" required
-              placeholder="Enter password">
-          </div>
-          <div class="col text-center">
-            <button type="submit" class="btn-brand-color text-light">Connect</button>
-          </div>
-      </div>
-      </form>
-    </div>
-  </div>
-
-  <script src="../static/js/wifiScan.js"></script>
+    <button type="submit">Connect</button>
+  </form>
 </body>
-
 </html>
