@@ -1,1 +1,44 @@
+<html>
+<head>
+  <title>Payment</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+  <h1>Pay ₹{{ amount }}</h1>
+  <button id="rzp-button">Pay Now</button>
+
+  <script>
+    const options = {
+      key: "{{ key_id }}",
+      amount: "{{ order.amount }}",
+      currency: "INR",
+      name: "Helmet Cleaning",
+      description: "Pay and start process",
+      order_id: "{{ order.id }}",
+      handler: function (response) {
+        fetch("/payment-verification", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature
+          })
+        })
+        .then(res => {
+          if (res.redirected) {
+              window.location.href = res.url;
+        } else {
+           return res.text().then(text => {
+              document.body.innerHTML = text;
+        });
+      }
+   });
+ },
+      theme: { color: "#3399cc" }
+    };
+    document.getElementById("rzp-button").onclick = e => { new Razorpay(options).open(); e.preventDefault(); };
+  </script>
+</body>
+</html>
 
