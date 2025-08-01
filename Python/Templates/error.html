@@ -1,1 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>System Error</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ff4e50, #f9d423);
+      color: #000000;
+      text-align: center;
+      padding: 60px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #900;
+      margin-bottom: 20px;
+    }
+
+    .error-box {
+      background: #fff3f3;
+      padding: 20px;
+      margin: 0 auto;
+      display: inline-block;
+      border: 2px solid #ff0000;
+      border-radius: 15px;
+      max-width: 500px;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-top: 10px;
+      color: #b30000;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #ff3333;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-box">
+    <h1>⛔ Cleaning Process Aborted</h1>
+    <p>{{ message }}</p>
+    <button onclick="window.location.href='/'">🔁 Return to Home</button>
+  </div>
+</body>
+</html>
 
