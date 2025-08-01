@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <title>Helmet Cleaning Service</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/global.css') }}">
+  <!-- <link rel="stylesheet" href="../stylesheet/global.css"> -->
+</head>
+
+<body>
+  <header class="container-fluid">
+    <div class="row justify-content-between align-items-center h-100">
+      <div class="col">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Helmet Cleaner Logo"
+          style="width: 100px; height: auto;" />
+        <!-- <img src="../static/logo.png" alt="Helmet Cleaner Logo" style="width: 100px; height: auto;" /> -->
+      </div>
+
+      <div class="col text-end">
+        <button type="button" id="network_status" class="btn-brand-light" style="margin:0 1rem 0 0;"
+          onclick="openModal('wifi_modalbox')"> </button>
+
+        <button type="button" class="btn-brand-color" onclick="openModal('admin_modalbox')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 28 28" fill="none">
+            <path
+              d="M14.187 13.5573C14.152 13.5573 14.1286 13.5573 14.0936 13.5573C14.0353 13.5457 13.9536 13.5457 13.8836 13.5573C10.5003 13.4523 7.94531 10.7923 7.94531 7.51398C7.94531 4.17732 10.6636 1.45898 14.0003 1.45898C17.337 1.45898 20.0553 4.17732 20.0553 7.51398C20.0436 10.7923 17.477 13.4523 14.222 13.5573C14.2103 13.5573 14.1986 13.5573 14.187 13.5573ZM14.0003 3.20898C11.632 3.20898 9.69531 5.14565 9.69531 7.51398C9.69531 9.84732 11.5153 11.7257 13.837 11.8073C13.8953 11.7957 14.0586 11.7957 14.2103 11.8073C16.497 11.7023 18.2936 9.82398 18.3053 7.51398C18.3053 5.14565 16.3686 3.20898 14.0003 3.20898Z"
+              fill="white" />
+            <path
+              d="M14.1989 26.3077C11.9122 26.3077 9.61385 25.7243 7.87552 24.5577C6.25385 23.4843 5.36719 22.0143 5.36719 20.416C5.36719 18.8177 6.25385 17.336 7.87552 16.251C11.3755 13.9293 17.0455 13.9293 20.5222 16.251C22.1322 17.3243 23.0305 18.7943 23.0305 20.3927C23.0305 21.991 22.1439 23.4727 20.5222 24.5577C18.7722 25.7243 16.4855 26.3077 14.1989 26.3077ZM8.84385 17.721C7.72385 18.4677 7.11719 19.4243 7.11719 20.4277C7.11719 21.4193 7.73552 22.376 8.84385 23.111C11.7489 25.0593 16.6489 25.0593 19.5539 23.111C20.6739 22.3643 21.2805 21.4077 21.2805 20.4043C21.2805 19.4127 20.6622 18.456 19.5539 17.721C16.6489 15.7843 11.7489 15.7843 8.84385 17.721Z"
+              fill="white" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- pagment button section  -->
+  <div class="content_height row align-items-center justify-content-center">
+    <div class="payment-section">
+      <div class="col">
+        <h2 class="section-title">Payment</h2>
+        <p class="section-subtitle">Pay ₹100 to start the helmet cleaning process instantly.</p>
+
+        <form action="/create-order" method="post">
+          <button class="btn-brand-color text-light">Pay ₹100 and Start Cleaning</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- wifi scan modal  -->
+  <div class="modal" id="wifi_modalbox" style="display: none;">
+    <div class="modal-header row align-items-center">
+      <div class="col-10">
+        <h2>Wi-Fi Setup</h2>
+      </div>
+      <div class="col text-end">
+        <button onclick="closeModal('wifi_modalbox')" style="background-color: transparent; border: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 20 20" fill="none">
+            <path d="M15.0009 5L5 15.0009" stroke="black" stroke-width="1.66678" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M5 5L15.0009 15.0009" stroke="black" stroke-width="1.66678" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-body">
+      <form method="POST" action="/wifi-connect">
+        <div class="col-12 text-center">
+          <input list="ssid-list" name="ssid" placeholder="Select or type SSID" required>
+          <datalist id="ssid-list"></datalist>
+        </div>
+
+        <div class="col-12 text-center">
+          <input type="password" name="password" placeholder="Enter Wi-Fi Password" required>
+        </div>
+
+        <div class="col-12 text-center" style="margin-top: 1rem;">
+          <button class="btn-brand-color text-light" type="submit">Connect to Wi-Fi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- admin login modal  -->
+  <div class="modal" id="admin_modalbox" style="display: none;">
+    <div class="modal-header row align-items-center">
+      <div class="col-10">
+        <h3>Superadmin Login</h3>
+      </div>
+      <div class="col text-end">
+        <button onclick="closeModal('admin_modalbox')" style="background-color: transparent; border: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 20 20" fill="none">
+            <path d="M15.0009 5L5 15.0009" stroke="black" stroke-width="1.66678" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M5 5L15.0009 15.0009" stroke="black" stroke-width="1.66678" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-body h-100">
+      <div class="text-center">
+        <input type="password" id="admin-pass" placeholder="Enter Superadmin Password">
+        <button class="btn-brand-color text-light" style="margin-top: .8rem;" onclick="loginSuperadmin()">Login</button>
+      </div>
+    </div>
+    <div id="admin-status" class="status"></div>
+  </div>
+  <div class="modal-overlay" id="modalOverlay" style="display: none;"></div>
+
+
+  <!-- <script src="../static/js/wifiScan.js"></script> -->
+  <!-- <script src="../static/js/network.js"></script> -->
+  <script src="{{ url_for('static', filename='js/wifiScan.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/network.js') }}"></script>
+  <script>
+    function loginSuperadmin() {
+      const password = document.getElementById("admin-pass")?.value;
+      fetch('/superadmin-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ password })
+      })
+        .then(res => res.json())
+        .then(data => {
+          const statusBox = document.getElementById("admin-status");
+          if (data.status === "success") {
+            statusBox.innerText = "Superadmin logged in.";
+            statusBox.className = "status_success";
+            setTimeout(() => {
+              window.location.href = "/start_after_superadmin";
+            }, 1000);
+          } else {
+            statusBox.innerText = data.message || "Login failed.";
+            statusBox.className = "status_error";
+          }
+        })
+        .catch(err => {
+          alert("Login error: " + err);
+        });
+    }
+
+    function openModal(modalId) {
+      document.getElementById('modalOverlay').style.display = 'block';
+      document.getElementById(modalId).style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById('modalOverlay').style.display = 'none';
+      document.getElementById(modalId).style.display = 'none';
+    }
+  </script>
+</body>
+
+</html>
