@@ -1,1 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Connect to Wi-Fi</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f7f9fc;
+    }
+    h2 {
+      color: #003366;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      font-size: 1em;
+      width: 100%;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .status {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    function scanNetworks() {
+      fetch('/wifi-scan')
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById("ssid-list");
+          list.innerHTML = "";
+          data.networks.forEach(ssid => {
+            const option = document.createElement("option");
+            option.value = ssid;
+            list.appendChild(option);
+          });
+        });
+    }
+
+    window.onload = scanNetworks;
+  </script>
+</head>
+<body>
+  <h2>📶 Connect to Wi-Fi</h2>
+  <form method="POST" action="/wifi-connect">
+    <label for="ssid">Select Network (SSID):</label>
+    <input list="ssid-list" name="ssid" required placeholder="Select or type SSID">
+    <datalist id="ssid-list"></datalist>
+
+    <label for="password">Wi-Fi Password:</label>
+    <input type="password" name="password" required placeholder="Enter password">
+
+    <button type="submit">Connect</button>
+  </form>
+</body>
+</html>
 
