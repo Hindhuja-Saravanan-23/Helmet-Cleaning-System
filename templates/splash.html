@@ -1,28 +1,79 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Helmet Cleaner - Starting</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { margin: 0; height: 100vh; background: linear-gradient(135deg, #003366, #006699); color: #fff;
-           font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center;
-           flex-direction: column; }
-    h1 { font-size: 2.2em; margin-bottom: 1rem; text-align: center; }
-    p { font-size: 1.2em; margin-bottom: 2rem; text-align: center; }
-    .loader { border: 8px solid #f3f3f3; border-top: 8px solid #00c8ff; border-radius: 50%;
-              width: 60px; height: 60px; animation: spin 1s linear infinite; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .progress-text { margin-top: 1rem; font-size: 1em; animation: blink 1.2s infinite; }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #003366, #006699);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 2.2em;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    p {
+      font-size: 1.2em;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .loader {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #00c8ff;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .progress-text {
+      margin-top: 1rem;
+      font-size: 1em;
+      animation: blink 1.2s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Bike Animation */
+    .bike {
+      position: absolute;
+      bottom: 10%;
+      left: -200px;
+      width: 120px;
+      animation: ride 5s linear infinite;
+    }
+    @keyframes ride {
+      0% { left: -200px; transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.05) rotate(2deg); }
+      100% { left: 110%; transform: scale(1) rotate(0deg); }
+    }
   </style>
   <script>
     setTimeout(() => { window.location.href = "/home"; }, 10000);
   </script>
 </head>
 <body>
-  <h1>🚀 Helmet Cleaning System</h1>
+  <h1>🏍️ Helmet Cleaning System</h1>
   <p>Preparing the system. Please wait...</p>
   <div class="loader"></div>
   <div class="progress-text">Initializing modules...</div>
+
+  <!-- Animated Bike -->
+  <img class="bike" src="/static/bike.png" alt="Bike Running">
 </body>
 </html>
